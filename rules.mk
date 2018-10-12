@@ -124,6 +124,11 @@ $(BUILD_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	$(Q)$(CC) $(TGT_CFLAGS) $(CFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $@ -c $<
 
+$(BUILD_DIR)/%.o: %.S
+	@printf "  CC\t$<\n"
+	@mkdir -p $(dir $@)
+	$(Q)$(CC) $(TGT_CFLAGS) $(CFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $@ -c $<
+
 $(BUILD_DIR)/%.o: %.cxx
 	@printf "  CXX\t$<\n"
 	@mkdir -p $(dir $@)
