@@ -4,6 +4,7 @@
 # OPENCM3_DIR - duh
 # PROJECT - will be the basename of the output elf, eg usb-gadget0-stm32f4disco
 # CFILES - basenames only, eg main.c blah.c
+# CXXFILES - same for C++ files. Must have cxx suffix!
 # DEVICE - the full device name, eg stm32f405ret6
 #  _or_
 # LDSCRIPT - full path, eg ../../examples/stm32/f4/stm32f4-discovery/stm32f4-discovery.ld
@@ -45,6 +46,7 @@ endif
 # Tool paths.
 PREFIX	?= arm-none-eabi-
 CC	= $(PREFIX)gcc
+CXX	= $(PREFIX)g++
 LD	= $(PREFIX)gcc
 OBJCOPY	= $(PREFIX)objcopy
 OBJDUMP	= $(PREFIX)objdump
@@ -56,6 +58,7 @@ OPENCM3_INC = $(OPENCM3_DIR)/include
 INCLUDES += $(patsubst %,-I%, . $(OPENCM3_INC) )
 
 OBJS = $(CFILES:%.c=$(BUILD_DIR)/%.o)
+OBJS += $(CXXFILES:%.cxx=$(BUILD_DIR)/%.o)
 OBJS += $(AFILES:%.S=$(BUILD_DIR)/%.o)
 GENERATED_BINS = $(PROJECT).elf $(PROJECT).bin $(PROJECT).map $(PROJECT).list $(PROJECT).lss
 
@@ -130,7 +133,7 @@ $(BUILD_DIR)/%.o: %.c
 $(BUILD_DIR)/%.o: %.cxx
 	@printf "  CXX\t$<\n"
 	@mkdir -p $(dir $@)
-	$(Q)$(CC) $(TGT_CXXFLAGS) $(CXXFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $@ -c $<
+	$(Q)$(CXX) $(TGT_CXXFLAGS) $(CXXFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $@ -c $<
 
 $(BUILD_DIR)/%.o: %.S
 	@printf "  AS\t$<\n"
