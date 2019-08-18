@@ -9,7 +9,7 @@
 
 #include <rtc_lib.h>
 #include <limits.h>
-#include <errno-base.h>
+#include <errno.h>
 
 static const unsigned char rtc_days_in_month[] = {
 	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
