@@ -1,14 +1,12 @@
-PROJECT = awesomesauce
-BUILD_DIR = bin
+PROJECT = STM32F030F4P6
+BUILD_DIR = build
 
-SHARED_DIR = ../my-common-code
+SHARED_DIR = rtc include
 CFILES = my-project.c
-CFILES += api.c
-AFILES += api-asm.S
 
 # TODO - you will need to edit these two lines!
-DEVICE=stm32f407vgt6
-OOCD_FILE = board/stm32f4discovery.cfg
+DEVICE=stm32f030f4p6
+OOCD_FILE = board/stm32f0discovery.cfg
 
 # You shouldn't have to edit anything below here.
 VPATH += $(SHARED_DIR)
