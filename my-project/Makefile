@@ -1,7 +1,7 @@
 PROJECT = STM32F030F4P6
 BUILD_DIR = build
 
-SHARED_DIR = include
+SHARED_DIR = include #rtc
 CFILES = my-project.c
 
 # TODO - you will need to edit these two lines!
@@ -19,7 +19,7 @@ include ../rules.mk
 include $(OPENCM3_DIR)/mk/genlink-rules.mk
 
 ############# For testing coding syntax #############
-TESTING_CFILES = rtc_lib.c
+TESTING_CFILES = rtc/rtc_lib.c
 TESTING_OBJS = $(TESTING_CFILES:%.c=$(BUILD_DIR)/%.o)
 test: $(TESTING_OBJS)
 #	@echo $(TESTING_OBJS)
