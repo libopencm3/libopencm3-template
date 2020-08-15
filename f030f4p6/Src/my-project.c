@@ -1,18 +1,18 @@
 /*
 * Copyright (C) 2019 ChinhPC <chinhphancong@outlook.com>
-* 
+*
 * Author: ChinhPC
 *
 * This file is free software: you can redistribute it and/or modify it
 * under the terms of the GNU General Public License as published by the
 * Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
-* 
+*
 * This file is distributed in the hope that it will be useful, but
 * WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 * See the GNU General Public License for more details.
-* 
+*
 * You should have received a copy of the GNU General Public License along
 * with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -79,7 +79,7 @@ int main(void)
 	// while (1) {
 	// 	gpio_toggle(GPIOA, GPIO4);	/* LED on/off */
 	// 	usart_send_blocking(USART1, c + '0'); /* USART1: Send byte. */
-	// 	c = (c == 9) ? 0 : c + 1;	 Increment c. 
+	// 	c = (c == 9) ? 0 : c + 1;	/* Increment c. */
 	// 	if ((j++ % 80) == 0) {		/* Newline after line full. */
 	// 		usart_send_blocking(USART1, '\r');
 	// 		usart_send_blocking(USART1, '\n');
@@ -150,21 +150,20 @@ static void main_func( void )
 
 	if( xQueue != NULL )
 	{
-		/* Start the two tasks as described in the comments at the top of this
-		file. */
-		xTaskCreate( blink,                   /* The function that implements the task. */
-					"Blink",                  /* The text name assigned to the task - for debug only as it is not used by the kernel. */
-					configMINIMAL_STACK_SIZE, /* The size of the stack to allocate to the task. */
-					NULL,                     /* The parameter passed to the task - just to check the functionality. */
-					blinkQUEUE_TASK_PRIORITY, /* The priority assigned to the task. */
-					NULL );                   /* The task handle is not required, so NULL is passed. */
+		/* Start the two tasks as described in the comments at the top of this file. */
+		xTaskCreate( blink,               /* The function that implements the task. */
+			"Blink",                  /* The text name assigned to the task - for debug only as it is not used by the kernel. */
+			configMINIMAL_STACK_SIZE, /* The size of the stack to allocate to the task. */
+			NULL,                     /* The parameter passed to the task - just to check the functionality. */
+			blinkQUEUE_TASK_PRIORITY, /* The priority assigned to the task. */
+			NULL );                   /* The task handle is not required, so NULL is passed. */
 
-		xTaskCreate( uart,                    /* The function that implements the task. */
-					"Uart",                   /* The text name assigned to the task - for debug only as it is not used by the kernel. */
-					configMINIMAL_STACK_SIZE, /* The size of the stack to allocate to the task. */
-					NULL,                     /* The parameter passed to the task - just to check the functionality. */
-					uartQUEUE_TASK_PRIORITY,  /* The priority assigned to the task. */
-					NULL );                   /* The task handle is not required, so NULL is passed. */
+		xTaskCreate( uart,                /* The function that implements the task. */
+			"Uart",                   /* The text name assigned to the task - for debug only as it is not used by the kernel. */
+			configMINIMAL_STACK_SIZE, /* The size of the stack to allocate to the task. */
+			NULL,                     /* The parameter passed to the task - just to check the functionality. */
+			uartQUEUE_TASK_PRIORITY,  /* The priority assigned to the task. */
+			NULL );                   /* The task handle is not required, so NULL is passed. */
 
 		/* Start the tasks and timer running. */
 		vTaskStartScheduler();
