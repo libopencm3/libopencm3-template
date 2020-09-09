@@ -1,9 +1,6 @@
 #include "api.h"
+#include "bits.h"
 
 int main(void) {
-	while (true) {
-
-	}
-
-	return 0;
+	return bits::reverse(0xf);
 }

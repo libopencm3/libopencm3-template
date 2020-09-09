@@ -1,8 +1,9 @@
 PROJECT = awesomesauce
 BUILD_DIR = bin
 
-SHARED_DIR = ./include
+SHARED_DIR = ../include
 CPPFILES += main.cpp
+CPPFILES += bits.cpp
 CFILES += api.c
 # AFILES += api-asm.S
 
