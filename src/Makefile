@@ -1,14 +1,13 @@
 PROJECT = awesomesauce
 BUILD_DIR = bin
 
-SHARED_DIR = ../include
+SHARED_DIR = ./include
 CPPFILES += main.cpp
 CFILES += api.c
-AFILES += api-asm.S
+# AFILES += api-asm.S
 
-# TODO - you will need to edit these two lines!
+# TODO - you will need to edit these lines!
 DEVICE = stm32f103c8
-
 OOCD_INTERFACE ?= stlink-v2
 OOCD_TARGET ?= stm32f1x
 

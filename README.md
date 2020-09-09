@@ -9,10 +9,6 @@ Easy "clone and go" repository for a libopencm3 based project.
 If you have an older git, or got ahead of yourself and skipped the ```--recurse-submodules```
 you can fix things by running ```git submodule update --init``` (This is only needed once)
 
-# Directories
-* src/ contains your application
-* include/ contains something shared.
-
 # As a template
 You should replace this with your _own_ README if you are using this
 as a template.
