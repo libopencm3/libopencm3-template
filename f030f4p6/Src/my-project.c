@@ -55,7 +55,7 @@ static void gpio_setup(void)
 	/* Setup GPIO pin GPIO4 on GPIO port A for LEDs. */
 	gpio_mode_setup(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO4);
 
-	/* Setup GPIO pins for USART2 transmit. */
+	/* Setup GPIO pins for USART1 transmit. */
 	gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO2 | GPIO3);
 
 	/* Setup USART1 TX pin as alternate function. */
@@ -180,7 +180,6 @@ static void main_func( void )
 
 /*-----------------------------------------------------------*/
 
-void vApplicationTickHook( void );
 void vApplicationTickHook( void )
 {
 	/* This function will be called by each tick interrupt if
@@ -193,7 +192,6 @@ void vApplicationTickHook( void )
 
 /*-----------------------------------------------------------*/
 
-void vApplicationStackOverflowHook( TaskHandle_t pxTask, char *pcTaskName );
 void vApplicationStackOverflowHook( TaskHandle_t pxTask, char *pcTaskName )
 {
 	( void ) pcTaskName;
