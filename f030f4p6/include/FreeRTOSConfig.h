@@ -91,5 +91,12 @@ standard names - or at least those used in the unmodified vector table. */
 #define xPortPendSVHandler pend_sv_handler
 #define xPortSysTickHandler sys_tick_handler
 
+/* The size of the global output buffer that is available for use when there
+are multiple command interpreters running at once (for example, one on a UART
+and one on TCP/IP).  This is done to prevent an output buffer being defined by
+each implementation - which would waste RAM.  In this case, there is only one
+command interpreter running. */
+#define configCOMMAND_INT_MAX_OUTPUT_SIZE 256
+
 #endif /* FREERTOS_CONFIG_H */
 

@@ -33,6 +33,7 @@ OOCD_TARGET=stm32f0x
 # All of the sources participating in the build are defined here
 include user.mk
 include rtos.mk
+include console.mk
 
 include $(OPENCM3_DIR)/mk/genlink-config.mk
 include ../rules.mk

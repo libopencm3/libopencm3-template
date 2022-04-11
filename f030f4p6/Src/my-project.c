@@ -24,6 +24,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
+#include "UARTCommandConsole.h"
 
 static void clock_setup(void)
 {
@@ -36,24 +37,10 @@ static void clock_setup(void)
 	rcc_periph_clock_enable(RCC_USART1);
 }
 
-static void usart_setup(void)
-{
-	/* Setup USART2 parameters. */
-	usart_set_baudrate(USART1, 115200);
-	usart_set_databits(USART1, 8);
-	usart_set_parity(USART1, USART_PARITY_NONE);
-	usart_set_stopbits(USART1, USART_CR2_STOPBITS_1);
-	usart_set_mode(USART1, USART_MODE_TX_RX);
-	usart_set_flow_control(USART1, USART_FLOWCONTROL_NONE);
-
-	/* Finally enable the USART. */
-	usart_enable(USART1);
-}
-
 static void gpio_setup(void)
 {
 	/* Setup GPIO pin GPIO4 on GPIO port A for LEDs. */
-	gpio_mode_setup(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO4);
+	gpio_mode_setup(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO0 | GPIO1 | GPIO4);
 
 	/* Setup GPIO pins for USART1 transmit. */
 	gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO2 | GPIO3);
@@ -73,7 +60,6 @@ int main(void)
 
 	clock_setup();
 	gpio_setup();
-	usart_setup();
 
 	// /* Blink the LED (PA4) on the board with every transmitted byte. */
 	// while (1) {
@@ -101,7 +87,6 @@ the queue empty. */
 
 /* Priorities at which the tasks are created. */
 #define blinkQUEUE_TASK_PRIORITY		( tskIDLE_PRIORITY + 1 )
-#define uartQUEUE_TASK_PRIORITY			( tskIDLE_PRIORITY + 2 )
 
 /*-----------------------------------------------------------*/
 
@@ -114,29 +99,11 @@ static void blink( void *pvParameters )
 {
 	(void)pvParameters;
 	/* Block for 500ms. */
-	const TickType_t xDelay = ( TickType_t )50 / portTICK_PERIOD_MS;
+	const TickType_t xDelay = ( TickType_t )500 / portTICK_PERIOD_MS;
 
 	/* Blink the LED (PA4) on the board with every transmitted byte. */
 	while (1) {
 		gpio_toggle(GPIOA, GPIO4);	/* LED on/off */
-		vTaskDelay(xDelay);
-	}
-}
-
-static void uart( void *pvParameters )
-{
-	(void)pvParameters;
-	/* Block for 500ms. */
-	const TickType_t xDelay = ( TickType_t ) 100 / portTICK_PERIOD_MS;
-	int j = 0, c = 0;
-
-	while (1) {
-		usart_send_blocking(USART1, c + '0'); /* USART1: Send byte. */
-		c = (c == 9) ? 0 : c + 1;
-		if ((j++ % 80) == 0) {		/* Newline after line full. */
-			usart_send_blocking(USART1, '\r');
-			usart_send_blocking(USART1, '\n');
-		}
 		vTaskDelay(xDelay);
 	}
 }
@@ -158,12 +125,7 @@ static void main_func( void )
 			blinkQUEUE_TASK_PRIORITY, /* The priority assigned to the task. */
 			NULL );                   /* The task handle is not required, so NULL is passed. */
 
-		xTaskCreate( uart,                /* The function that implements the task. */
-			"Uart",                   /* The text name assigned to the task - for debug only as it is not used by the kernel. */
-			configMINIMAL_STACK_SIZE, /* The size of the stack to allocate to the task. */
-			NULL,                     /* The parameter passed to the task - just to check the functionality. */
-			uartQUEUE_TASK_PRIORITY,  /* The priority assigned to the task. */
-			NULL );                   /* The task handle is not required, so NULL is passed. */
+		vUARTCommandConsoleStart( ( configMINIMAL_STACK_SIZE * 3 ), tskIDLE_PRIORITY );
 
 		/* Start the tasks and timer running. */
 		vTaskStartScheduler();
