@@ -49,6 +49,7 @@ PREFIX	?= arm-none-eabi-
 CC	= $(PREFIX)gcc
 CXX	= $(PREFIX)g++
 LD	= $(PREFIX)gcc
+SZ	= $(PREFIX)size
 OBJCOPY	= $(PREFIX)objcopy
 OBJDUMP	= $(PREFIX)objdump
 OOCD	?= openocd
@@ -111,7 +112,7 @@ LDLIBS += -Wl,--start-group -lc -lgcc -lnosys -Wl,--end-group
 %: s.%
 %: SCCS/s.%
 
-all: $(PROJECT).elf $(PROJECT).bin
+all: size
 flash: $(PROJECT).flash
 
 # error if not using linker script generator
@@ -169,6 +170,12 @@ else
 		-c "program $(realpath $(*).elf) verify reset exit" \
 		$(NULL)
 endif
+
+size: $(PROJECT).elf
+	@printf '\n'
+	$(Q)$(SZ) $<
+	@printf '\n'
+	@echo 'Finished building: $<'
 
 clean:
 	rm -rf $(BUILD_DIR) $(GENERATED_BINS)
